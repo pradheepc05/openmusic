@@ -27,3 +27,5 @@ Thumbs.db
 dist/
 *.log
 .DS_Store
+# Dependencies
+node_modules/
