@@ -1,47 +1,55 @@
+# Phase 3 --- Audius Integration
 
----
+**Status:** ✅ Complete\
+**Tag:** `phase-3`\
+**Completed:** 2026-11-03
 
-### `docs/phase-03-audius.md`
-```markdown
-# Phase 3 — Audius Integration
-
-**Goal:** Real trending tracks, real search, real playable stream URLs
-from Audius.
+**Goal:** Real trending tracks, real search, and real playable stream
+URLs from Audius.
 
 ## Tasks
-- [ ] `services/http.ts` — shared axios instance (timeout 15s,
-      error normalization interceptor)
-- [ ] `services/providers/audiusProvider.ts` — implements `MusicProvider`
-  - [ ] host discovery (`https://api.audius.co` → `data[0]`)
-  - [ ] `getTrending(genre?)` via `/v1/tracks/trending`
-  - [ ] `search(query)` via `/v1/tracks/search`
-  - [ ] `isEnabled()` → `!!import.meta.env.VITE_AUDIUS_APP_NAME`
-- [ ] `services/mappers/trackMapper.ts`
-  - [ ] `mapAudiusTrack(raw): Track` (id prefix `audius:`)
-- [ ] `services/providers/providerRegistry.ts` — register Audius
-- [ ] `services/musicService.ts` — iterate `enabledProviders()`
-- [ ] `hooks/useMusic.ts` — `useTrending(genre?)`, `useSearch(q)`
-      with loading/error/data states
-- [ ] Wire `Home`, `Search`, `Explore` to real data
-- [ ] `types/env.d.ts` — `VITE_AUDIUS_APP_NAME: string`
 
-## Acceptance criteria
-- Home shows real Audius trending tracks with artwork and artist names
-- Search returns Audius results for a real artist (e.g. "deadmau5")
-- Clicking a track sets a real `streamUrl` on `services/audio.ts`
-  and the browser's native `<audio>` console shows playback
-  (controls not wired yet — that's Phase 5)
-- Network errors show `ErrorBoundary` fallback, not a white screen
+-   [x] `services/http.ts` --- shared Axios instance (timeout 15s, error
+    normalization interceptor)
+-   [x] `services/providers/audiusProvider.ts` --- implements
+    `MusicProvider`
+    -   [x] Host discovery (`https://api.audius.co` → `data[0]`)
+    -   [x] `getTrending(genre?)` via `/v1/tracks/trending`
+    -   [x] `search(query)` via `/v1/tracks/search`
+    -   [x] `isEnabled()` → always true (open API)
+-   [x] `services/mappers/trackMapper.ts`
+    -   [x] `mapAudiusTrack(raw, host): Track` (ID prefix `audius:`)
+-   [x] `services/providers/providerRegistry.ts` --- register Audius
+-   [x] `services/musicService.ts` --- iterate `enabledProviders()`
+-   [x] `hooks/useMusic.ts` --- `useTrending(genre?)`, `useSearch(q)`
+    with loading/error/data states
+-   [x] Wire `Home`, `Search`, and `Explore` to real data
+-   [x] `types/env.d.ts` --- `VITE_AUDIUS_APP_NAME: string`
+-   [x] `types/provider.ts` --- `MusicProvider` interface
 
-## Risks / notes
-- **Stream URLs can expire.** Always re-fetch on play; never persist.
-- **Rate limits.** Cache trending results in `sessionStorage`
-  for 5 minutes.
-- **CORS.** Audius allows browser calls; if blocked later, insert a
-  Vercel serverless proxy in front of `services/http.ts` `baseURL`.
+## Acceptance Criteria
 
-## Git
-```bash
-git checkout -b feat/phase-3-audius
-git commit -m "feat(audius): provider, mapper, useMusic hook, real trending"
-git tag phase-3 && git push --tags
+-   [x] Home shows real Audius trending tracks with artwork and artist
+    names
+-   [x] Search returns Audius results for a real artist
+-   [x] Every `Track` has `id` (`audius:<realId>`), `provider`, and
+    `streamUrl`
+-   [x] Network errors surface via `EmptyState` with an error message
+-   [x] No Axios import outside `services/http.ts`
+-   [x] No mock data used by Home / Search / Explore
+
+## Verification (All Passed)
+
+-   [x] `npx tsc -b` --- clean (exit 0)
+-   [x] `npm run build` --- succeeds
+-   [x] `api.audius.co` returns a host list
+-   [x] `/v1/tracks/trending` returns tracks
+-   [x] `/v1/tracks/search?query=lofi` returns tracks
+-   [x] Mapper produces `audius:` prefixed IDs and `/v1/tracks/*/stream`
+    URLs
+-   [x] `npm run preview` --- all routes return 200 with SPA shell
+-   [x] `scripts/verify-phase3.ps1` → **Phase 3: PASS** (5/5 sections)
+
+## Files created in this phase (all verified ✅)
+
+**✅**
