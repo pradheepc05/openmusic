@@ -2,6 +2,8 @@ import { FormEvent, useState } from 'react';
 import { Menu, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../constants/routes';
+import { useAuthStore } from '../../store/authStore';
+import { Link } from 'react-router-dom';
 
 interface TopbarProps {
   onMenu: () => void;
@@ -10,7 +12,19 @@ interface TopbarProps {
 export default function Topbar({ onMenu }: TopbarProps) {
   const [q, setQ] = useState('');
   const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
+const signOut = useAuthStore((s) => s.signOut);
 
+// after the search form:
+{user ? (
+  <button onClick={signOut} className="text-xs text-zinc-400 hover:text-white">
+    Sign out
+  </button>
+) : (
+  <Link to="/login" className="text-xs text-emerald-400 hover:text-emerald-300">
+    Sign in
+  </Link>
+)}
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const trimmed = q.trim();

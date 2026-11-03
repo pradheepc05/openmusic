@@ -1,3 +1,6 @@
+# Dependencies
+node_modules/
+
 # env
 .env
 .env.local
@@ -19,13 +22,3 @@ npm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
-
-
-.env
-.env.local
-.env.*.local
-dist/
-*.log
-.DS_Store
-# Dependencies
-node_modules/

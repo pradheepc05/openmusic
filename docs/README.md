@@ -25,14 +25,24 @@ implementation notes.
 
 Free, ad-free music streaming web app built on Audius and Jamendo.
 
-**Status:** Phase 6 complete — favorites, playlists, recently played,
-all persisted locally.
+**Status:** ✅ All 7 phases complete — deployed to Vercel, optional
+Supabase accounts.
 
+## Features
 
+- 🎵 **Real streaming** from Audius (primary) and Jamendo (optional)
+- 🔍 **Cross-provider search** with debounced input
+- 🎧 **Persistent player** — audio continues across route changes
+- 🔁 **Queue** with shuffle, repeat one/all, and volume (persisted)
+- ❤️ **Favorites** and 📝 **playlists** persisted locally
+- ⏱️ **Recently played** auto-tracked (last 30)
+- 👤 **Optional accounts** via Supabase with cloud sync
+- 📱 **Responsive** — desktop, tablet, mobile
+- 🚀 **SPA deploy** on Vercel with deep-link support
 
 ## Quickstart
 
 ```powershell
 npm install
-cp .env.example .env.local      # fill in VITE_AUDIUS_APP_NAME
-npm run dev                     # http://localhost:5173
+cp .env.example .env.local       # fill in VITE_AUDIUS_APP_NAME
+npm run dev                      # http://localhost:5173
