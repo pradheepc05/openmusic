@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { audio } from '../services/audio';
+import { useLibraryStore } from './libraryStore';
 import type { Track } from '../types/music';
 
 export type Repeat = 'off' | 'all' | 'one';
@@ -40,7 +41,11 @@ function loadVolume(): number {
 }
 
 function saveVolume(v: number) {
-  try { localStorage.setItem(VOLUME_KEY, String(v)); } catch { /* ignore */ }
+  try {
+    localStorage.setItem(VOLUME_KEY, String(v));
+  } catch {
+    /* ignore */
+  }
 }
 
 function pickNext(get: () => PlayerState): number {
@@ -55,16 +60,27 @@ function pickNext(get: () => PlayerState): number {
   return s.repeat === 'all' ? 0 : -1;
 }
 
-function startAt(set: (p: Partial<PlayerState>) => void, get: () => PlayerState, i: number) {
+function startAt(
+  set: (p: Partial<PlayerState>) => void,
+  get: () => PlayerState,
+  i: number,
+) {
   const track = get().queue[i];
   if (!track || !track.streamUrl) {
     set({ isPlaying: false });
     return;
   }
+  useLibraryStore.getState().addRecentlyPlayed(track);
+
   audio.src = track.streamUrl;
   audio.currentTime = 0;
   audio.volume = get().muted ? 0 : get().volume;
-  set({ index: i, currentTime: 0, duration: track.duration || 0, isPlaying: true });
+  set({
+    index: i,
+    currentTime: 0,
+    duration: track.duration || 0,
+    isPlaying: true,
+  });
   audio.play().catch(() => set({ isPlaying: false }));
 }
 
@@ -136,7 +152,11 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   cycleRepeat: () =>
     set({
       repeat:
-        get().repeat === 'off' ? 'all' : get().repeat === 'all' ? 'one' : 'off',
+        get().repeat === 'off'
+          ? 'all'
+          : get().repeat === 'all'
+          ? 'one'
+          : 'off',
     }),
 
   _ended: () => {

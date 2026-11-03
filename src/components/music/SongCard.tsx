@@ -1,5 +1,7 @@
 import { Play } from 'lucide-react';
 import SafeImage from '../common/SafeImage';
+import FavoriteButton from './FavoriteButton';
+import AddToPlaylistMenu from './AddToPlaylistMenu';
 import type { Track } from '../../types/music';
 
 interface SongCardProps {
@@ -27,6 +29,10 @@ export default function SongCard({ track, onPlay }: SongCardProps) {
         >
           <Play size={18} fill="currentColor" />
         </button>
+        <div className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/70 px-1 opacity-0 transition group-hover:opacity-100">
+          <FavoriteButton track={track} size={14} />
+          <AddToPlaylistMenu track={track} size={14} />
+        </div>
       </div>
       <h3 className="truncate text-sm font-semibold">{track.title}</h3>
       <p className="truncate text-xs text-zinc-400">{track.artist}</p>

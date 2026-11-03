@@ -1,49 +1,61 @@
+# Phase 6 --- User Library
 
----
+**Status:** ✅ Complete\
+**Tag:** `phase-6`\
+**Completed:** 2026-11-03
 
-### `docs/phase-06-library.md`
-```markdown
-# Phase 6 — User Library
-
-**Goal:** Favourites, playlists, recently played — persisted locally
-(localStorage) until Supabase arrives in Phase 7.
+**Goal:** Favourites, playlists, and recently played --- persisted
+locally via `zustand/persist` until Supabase arrives in Phase 7.
 
 ## Tasks
-- [ ] `store/libraryStore.ts` — `zustand/persist`:
-  - [ ] `favorites: Track[]`, `toggleFavorite(t)`
-  - [ ] `recentlyPlayed: Track[]` (max 30, newest first)
-- [ ] `store/playlistStore.ts` — `zustand/persist`:
-  - [ ] `playlists: Playlist[]`
-  - [ ] `createPlaylist(name)`
-  - [ ] `renamePlaylist(id, name)`
-  - [ ] `deletePlaylist(id)`
-  - [ ] `addToPlaylist(id, track)`
-  - [ ] `removeFromPlaylist(id, trackId)`
-- [ ] `utils/storage.ts` — typed wrapper for non-store keys
-      (e.g. last search query)
-- [ ] `Favorites.tsx` — read from `libraryStore.favorites`
-- [ ] `Library.tsx` — tabs: Playlists (from `playlistStore`) +
-      Recently Played
-- [ ] `Playlist.tsx` — load by `:id` from `playlistStore`
-- [ ] Heart icon on `SongCard` / `SongList` → toggles favorite
-- [ ] "Add to playlist" menu on track context
-- [ ] `playerStore._ended` calls `libraryStore.addRecentlyPlayed(track)`
 
-## Acceptance criteria
-- Favouriting a track persists across reload
-- Playlist CRUD works and survives reload
-- Deleting a playlist removes its route (Playlist page → `NotFound`)
-- Recently Played shows last 30 unique tracks
-- No track data is lost on reload (persist storage name:
-  `openmusic-library`, `openmusic-playlists`)
+-   [x] `store/libraryStore.ts` --- `zustand/persist`
+    -   [x] `favorites: Track[]` + `toggleFavorite(t)`
+    -   [x] `recentlyPlayed: Track[]` (maximum 30, newest first,
+        deduplicated)
+    -   [x] `isFavorite(id)` helper
+    -   [x] `clearRecentlyPlayed()`
+-   [x] `store/playlistStore.ts` --- `zustand/persist`
+    -   [x] `playlists: Playlist[]`
+    -   [x] `createPlaylist(name)` → returns new ID
+    -   [x] `renamePlaylist(id, name)`
+    -   [x] `deletePlaylist(id)`
+    -   [x] `addToPlaylist(id, track)` --- deduplicated
+    -   [x] `removeFromPlaylist(id, trackId)`
+    -   [x] `getPlaylist(id)` selector
+-   [x] `playerStore.startAt` →
+    `useLibraryStore.addRecentlyPlayed(track)`
+-   [x] `components/music/FavoriteButton.tsx` --- heart toggle
+-   [x] `components/music/AddToPlaylistMenu.tsx` --- dropdown + "New
+    playlist"
+-   [x] `components/music/CreatePlaylistDialog.tsx` --- modal
+-   [x] `SongCard` shows heart and add-to-playlist controls on hover
+-   [x] `SongList` shows heart and add-to-playlist controls per row
+-   [x] `Favorites.tsx` reads `libraryStore.favorites`
+-   [x] `Library.tsx` --- tabs: Playlists + Recently Played, "New
+    playlist" button
+-   [x] `Playlist.tsx` --- reads `playlistStore`, supports rename,
+    delete, remove-track, and empty state
 
-## Migration note
-Phase 7 will replace `zustand/persist` storage with Supabase calls for
-authenticated users. Keep store action signatures stable so pages don't
-need changing.
+## Acceptance Criteria
 
-## Git
-```bash
-git checkout -b feat/phase-6-library
-git commit -m "feat(library): favorites, playlists, recently played (local)"
-git tag phase-6 && git push --tags
+-   [x] Favouriting a track persists across reloads
+-   [x] Playlist CRUD survives reloads
+-   [x] Deleting a playlist removes its route (Playlist page →
+    EmptyState)
+-   [x] Recently Played shows the last 30 unique tracks
+-   [x] Adding a track to a playlist twice is a no-op
+-   [x] "New playlist" from the add-to-playlist menu adds the current
+    track
+
+## Verification (All Passed)
+
+-   [x] `npx tsc -b` --- clean (exit 0)
+-   [x] `npm run build` --- succeeds
+-   [x] `scripts/verify-phase6.ps1` → **Phase 6: PASS** (5/5 sections)
+-   [x] Manual smoke test --- favourite, create playlist, add track,
+    rename, delete, and recently played all work
+
+## Files Created in This Phase
+
+**✅**

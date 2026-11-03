@@ -25,8 +25,8 @@ implementation notes.
 
 Free, ad-free music streaming web app built on Audius and Jamendo.
 
-**Status:** Phase 5 complete — real playback with queue, shuffle,
-repeat, volume.
+**Status:** Phase 6 complete — favorites, playlists, recently played,
+all persisted locally.
 
 
 
