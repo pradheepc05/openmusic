@@ -1,0 +1,29 @@
+# env
+.env
+.env.local
+.env.*.local
+
+# build
+dist/
+dist-ssr/
+
+# logs
+*.log
+npm-debug.log*
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+.env
+.env.local
+.env.*.local
+dist/
+*.log
+.DS_Store
