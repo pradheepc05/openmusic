@@ -4,11 +4,13 @@ import SongCard from '../components/music/SongCard';
 import EmptyState from '../components/common/EmptyState';
 import Skeleton from '../components/common/Skeleton';
 import { useSearch } from '../hooks/useMusic';
+import { usePlayerStore } from '../store/playerStore';
 
 export default function Search() {
   const [params] = useSearchParams();
   const q = (params.get('q') ?? '').trim();
   const { data, loading, error } = useSearch(q);
+  const playQueue = usePlayerStore((s) => s.playQueue);
 
   return (
     <div className="space-y-6">
@@ -50,8 +52,8 @@ export default function Search() {
 
       {q && !loading && !error && data.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {data.map((t) => (
-            <SongCard key={t.id} track={t} />
+          {data.map((t, i) => (
+            <SongCard key={t.id} track={t} onPlay={() => playQueue(data, i)} />
           ))}
         </div>
       )}

@@ -3,11 +3,13 @@ import SongCard from '../components/music/SongCard';
 import Skeleton from '../components/common/Skeleton';
 import EmptyState from '../components/common/EmptyState';
 import { useTrending } from '../hooks/useMusic';
+import { usePlayerStore } from '../store/playerStore';
 import { genres } from '../mocks/genres';
 
 export default function Explore() {
   const [genre, setGenre] = useState<string | null>(null);
   const { data, loading, error } = useTrending(genre ?? undefined);
+  const playQueue = usePlayerStore((s) => s.playQueue);
 
   return (
     <div className="space-y-6">
@@ -56,8 +58,8 @@ export default function Explore() {
         <EmptyState title="No tracks in this genre" />
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {data.map((t) => (
-            <SongCard key={t.id} track={t} />
+          {data.map((t, i) => (
+            <SongCard key={t.id} track={t} onPlay={() => playQueue(data, i)} />
           ))}
         </div>
       )}

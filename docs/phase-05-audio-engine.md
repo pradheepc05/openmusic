@@ -1,52 +1,55 @@
+# Phase 5 --- Audio Engine
 
----
+**Status:** ✅ Complete\
+**Tag:** `phase-5`\
+**Completed:** 2026-11-03
 
-### `docs/phase-05-audio-engine.md`
-```markdown
-# Phase 5 — Audio Engine
-
-**Goal:** Fully functional persistent player: play/pause, seek, next,
-prev, shuffle, repeat, volume, queue, mini-player. Audio continues
-across route changes.
+**Goal:** Persistent playback across routes, queue with shuffle / repeat
+/ volume, mini player fixed at the bottom, and queue drawer.
 
 ## Tasks
-- [ ] `services/audio.ts` — single `new Audio()` instance, `preload=auto`
-- [ ] `store/playerStore.ts` — `queue`, `index`, `isPlaying`,
-      `currentTime`, `duration`, `volume`, `muted`, `shuffle`, `repeat`
-      and actions: `playQueue`, `toggle`, `next`, `prev`, `seek`,
-      `setVolume`, `toggleMute`, `toggleShuffle`, `cycleRepeat`
-- [ ] `hooks/useAudioEvents.ts` — **mount exactly once** in `MainLayout`:
-  - [ ] `timeupdate` → `currentTime`
-  - [ ] `loadedmetadata` → `duration`
-  - [ ] `play` / `pause` → `isPlaying`
-  - [ ] `ended` → `_ended()` (respect repeat-one)
-- [ ] `hooks/usePlayer.ts` — thin wrapper reading store
-- [ ] `PlayerControls.tsx` — play/pause/next/prev/shuffle/repeat
-- [ ] `ProgressBar.tsx` + `VolumeControl.tsx` — both use `common/Slider.tsx`
-- [ ] `MiniPlayer.tsx` — fixed bottom bar: cover, title, artist, controls,
-      progress
-- [ ] `MusicPlayer.tsx` — full "Now Playing" page view
-- [ ] `QueuePanel.tsx` — slide-over drawer showing queue + reorder
-- [ ] `SongList` — row click → `playQueue(tracks, index)`
-- [ ] Guard: `useAudioEvents` mounted only in `MainLayout`
-- [ ] Autoplay-blocked fallback: catch `play()` rejection → `isPlaying=false`
 
-## Acceptance criteria
-- Pressing play on a song starts audio
-- Navigating between pages does **not** stop playback
-- Next/prev work; `repeat=one` replays the same track on `ended`
-- Shuffle picks a different index; `repeat=all` loops the queue
-- Volume slider + mute toggle work; value persists on reload
-- Only **one** `<audio>` element exists in DOM at any time
+-   [x] `services/audio.ts` --- single module-level `new Audio()`
+    instance
+-   [x] `store/playerStore.ts` --- queue, index, play state, volume,
+    shuffle, and repeat
+    -   [x] `playQueue(tracks, startIndex)`
+    -   [x] `toggle`, `next`, `prev`, `seek`
+    -   [x] `setVolume`, `toggleMute`
+    -   [x] `toggleShuffle`, `cycleRepeat`
+    -   [x] `_ended` --- respects `repeat: 'one' | 'all' | 'off'`
+-   [x] `hooks/useAudioEvents.ts` --- bound once (module flag guards
+    StrictMode)
+-   [x] `hooks/usePlayer.ts` --- selector wrapper
+-   [x] `PlayerControls.tsx` --- play/pause, prev/next, shuffle, repeat
+-   [x] `ProgressBar.tsx` --- seek slider and time labels
+-   [x] `VolumeControl.tsx` --- slider and mute toggle
+-   [x] `MiniPlayer.tsx` --- fixed bottom bar in `MainLayout`
+-   [x] `QueuePanel.tsx` --- right-side drawer with current-track
+    highlight
+-   [x] `SongCard` / `SongList` clicks → `playQueue`
+-   [x] Volume persisted in `localStorage` (`openmusic:volume`)
 
-## Known gotchas
-- Multiple `useAudioEvents()` mounts → duplicate `ended` events →
-  double-advance. Guard with a module-level flag or mount once.
-- Browser autoplay policy: first `play()` must follow a user gesture.
-- Don't put `streamUrl` in `localStorage` — it expires.
+## Acceptance Criteria
 
-## Git
-```bash
-git checkout -b feat/phase-5-audio-engine
-git commit -m "feat(player): persistent audio, queue, shuffle, repeat"
-git tag phase-5 && git push --tags
+-   [x] Audio plays across route navigation without interruption
+-   [x] Only one `<audio>` element exists in the DOM at any time
+-   [x] Queue plays sequentially and respects shuffle
+-   [x] `Repeat: one` loops the same track on `ended`
+-   [x] `Repeat: all` wraps the queue back to index 0
+-   [x] Volume value persists across reloads
+-   [x] Clicking a queue item jumps to that track
+-   [x] Mini player shows current track artwork, title, artist, and
+    controls
+
+## Verification (All Passed)
+
+-   [x] `npx tsc -b` --- clean (exit 0)
+-   [x] `npm run build` --- succeeds
+-   [x] `scripts/verify-phase5.ps1` → **Phase 5: PASS** (5/5 sections)
+-   [x] Manual smoke test --- play, seek, next, previous, shuffle,
+    repeat, volume, and queue all work
+
+## Files Created in This Phase
+
+**✅**

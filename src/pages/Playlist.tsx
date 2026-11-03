@@ -4,12 +4,14 @@ import SafeImage from '../components/common/SafeImage';
 import EmptyState from '../components/common/EmptyState';
 import Skeleton from '../components/common/Skeleton';
 import { useMockLoading } from '../hooks/useMockLoading';
+import { usePlayerStore } from '../store/playerStore';
 import { mockPlaylists } from '../mocks/playlists';
 
 export default function Playlist() {
   const { id } = useParams<{ id: string }>();
   const loading = useMockLoading(id);
   const playlist = mockPlaylists.find((p) => p.id === id);
+  const playQueue = usePlayerStore((s) => s.playQueue);
 
   if (loading) {
     return (
@@ -56,7 +58,10 @@ export default function Playlist() {
         </div>
       </header>
 
-      <SongList tracks={playlist.tracks} />
+      <SongList
+        tracks={playlist.tracks}
+        onPlay={(_, i) => playQueue(playlist.tracks, i)}
+      />
     </div>
   );
 }

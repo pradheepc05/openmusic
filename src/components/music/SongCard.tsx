@@ -4,7 +4,7 @@ import type { Track } from '../../types/music';
 
 interface SongCardProps {
   track: Track;
-  onPlay?: (track: Track) => void;
+  onPlay?: () => void;
 }
 
 export default function SongCard({ track, onPlay }: SongCardProps) {
@@ -21,7 +21,7 @@ export default function SongCard({ track, onPlay }: SongCardProps) {
         </span>
         <button
           type="button"
-          onClick={() => onPlay?.(track)}
+          onClick={() => onPlay?.()}
           aria-label={`Play ${track.title}`}
           className="absolute bottom-2 right-2 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-zinc-950 opacity-0 shadow-lg transition group-hover:opacity-100 hover:scale-105"
         >

@@ -12,7 +12,7 @@
 | 2     | UI implementation        | ✅     | `phase-2` |
 | 3     | Audius integration       | ✅     | `phase-3` |
 | 4     | Jamendo integration      | ✅     | `phase-4` |
-| 5     | Audio engine             | ⏳     | `phase-5` |
+| 5     | Audio engine             | ✅     | `phase-5` |
 | 6     | User library             | ⏳     | `phase-6` |
 | 7     | Backend & deployment     | ⏳     | `phase-7` |
 
@@ -35,14 +35,20 @@
   Shared `http.ts`, `MusicProvider` contract, `audiusProvider` with
   host discovery, `trackMapper`, `providerRegistry`, `musicService`
   façade, `useMusic` hooks (`useTrending`, `useSearch`). Home /
-  Search / Explore now use real Audius data with loading + error
-  states. Verified by `scripts/verify-phase3.ps1`.
+  Search / Explore use real Audius data. Verified by
+  `scripts/verify-phase3.ps1`.
 
 - ✅ **Phase 4 — Jamendo Integration** (tag `phase-4`)
   Optional Jamendo provider, `mapJamendoTrack`, registry update,
-  graceful skip when `VITE_JAMENDO_CLIENT_ID` is absent, merged
-  search + trending across both providers. Verified by
-  `scripts/verify-phase4.ps1`.
+  graceful skip when `VITE_JAMENDO_CLIENT_ID` absent, merged search
+  + trending. Verified by `scripts/verify-phase4.ps1`.
+
+- ✅ **Phase 5 — Audio Engine** (tag `phase-5`)
+  Single `Audio()` instance, `playerStore` (queue / shuffle / repeat /
+  volume), `useAudioEvents` bound once, `MiniPlayer`, `QueuePanel`,
+  real playback wired across Home / Search / Explore / Playlist.
+  Volume persisted in `localStorage`. Verified by
+  `scripts/verify-phase5.ps1`.
 
 ## Stack
 
@@ -51,6 +57,6 @@
 - Zustand + `zustand/persist`
 - React Router v6
 - Axios (shared instance in `services/http.ts`)
-- HTML5 `<audio>` (single instance in `services/audio.ts` — Phase 5)
+- HTML5 `<audio>` (single instance in `services/audio.ts`)
 - Audius (primary) + Jamendo (optional, licensed)
 - Hosting: Vercel · Repo: GitHub · DB (Phase 7): Supabase
