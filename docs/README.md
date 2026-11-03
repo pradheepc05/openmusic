@@ -25,8 +25,9 @@ implementation notes.
 
 Free, ad-free music streaming web app built on Audius and Jamendo.
 
-**Status:** Phase 3 complete — real Audius data flowing.
+**Status:** Phase 4 complete — Audius + Jamendo merged.
 See [`docs/ROADMAP.md`](./docs/ROADMAP.md) for the full plan.
+
 
 
 ## Quickstart

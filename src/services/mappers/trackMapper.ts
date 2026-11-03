@@ -20,3 +20,18 @@ export function mapAudiusTrack(raw: any, host: string): Track {
     permalink: raw.permalink ?? undefined,
   };
 }
+
+/** Maps a raw Jamendo track response to the app's Track shape. */
+export function mapJamendoTrack(raw: any): Track {
+  return {
+    id: `jamendo:${raw.id}`,
+    provider: 'jamendo',
+    title: raw.name ?? 'Untitled',
+    artist: raw.artist_name ?? 'Unknown artist',
+    artwork: raw.image ?? undefined,
+    duration: Number(raw.duration) || 0,
+    streamUrl: raw.audio ?? '',
+    genre: raw.musicinfo?.tags?.genres?.[0],
+    permalink: raw.shareurl ?? undefined,
+  };
+}
