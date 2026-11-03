@@ -1,22 +1,24 @@
 import SongCard from '../components/music/SongCard';
 import Skeleton from '../components/common/Skeleton';
-import { useMockLoading } from '../hooks/useMockLoading';
-import { mockTracks } from '../mocks/tracks';
+import EmptyState from '../components/common/EmptyState';
+import { useTrending } from '../hooks/useMusic';
 import type { Track } from '../types/music';
 
 function logPlay(track: Track) {
   // eslint-disable-next-line no-console
-  console.log('[Phase 2] would play:', track.title);
+  console.log('[Phase 3] would play:', track.title, track.streamUrl);
 }
 
 function Shelf({
   title,
   tracks,
   loading,
+  error,
 }: {
   title: string;
   tracks: Track[];
   loading: boolean;
+  error: string | null;
 }) {
   return (
     <section className="space-y-3">
@@ -27,6 +29,10 @@ function Shelf({
             <Skeleton key={i} className="aspect-square rounded-lg" />
           ))}
         </div>
+      ) : error ? (
+        <EmptyState title="Could not load tracks" description={error} />
+      ) : tracks.length === 0 ? (
+        <EmptyState title="Nothing here yet" description="Try again later." />
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {tracks.map((t) => (
@@ -39,24 +45,30 @@ function Shelf({
 }
 
 export default function Home() {
-  const loading = useMockLoading();
-
-  const trending = mockTracks.slice(0, 10);
-  const madeForYou = [...mockTracks].reverse().slice(0, 10);
-  const recently = mockTracks.slice(5, 10);
+  const trending = useTrending();
+  const electronic = useTrending('Electronic');
 
   return (
     <div className="space-y-8">
       <header>
         <h1 className="text-2xl font-bold sm:text-3xl">Good evening</h1>
         <p className="text-sm text-zinc-400">
-          Here's what's happening on OpenMusic right now.
+          Real Audius tracks now playing on OpenMusic.
         </p>
       </header>
 
-      <Shelf title="Trending now" tracks={trending} loading={loading} />
-      <Shelf title="Made for you" tracks={madeForYou} loading={loading} />
-      <Shelf title="Recently played" tracks={recently} loading={loading} />
+      <Shelf
+        title="Trending on Audius"
+        tracks={trending.data}
+        loading={trending.loading}
+        error={trending.error}
+      />
+      <Shelf
+        title="Electronic"
+        tracks={electronic.data}
+        loading={electronic.loading}
+        error={electronic.error}
+      />
     </div>
   );
 }
