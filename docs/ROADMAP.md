@@ -1,8 +1,14 @@
+
+---
+
+## Companion `docs/ROADMAP.md` (updated)
+
+```markdown
 # OpenMusic Roadmap
 
 | Phase | Name                     | Status | Tag       |
 |-------|--------------------------|--------|-----------|
-| 1     | Frontend foundation      | ⏳     | `phase-1` |
+| 1     | Frontend foundation      | ✅     | `phase-1` |
 | 2     | UI implementation        | ⏳     | `phase-2` |
 | 3     | Audius integration       | ⏳     | `phase-3` |
 | 4     | Jamendo integration      | ⏳     | `phase-4` |
@@ -12,13 +18,20 @@
 
 **Status legend:** ⏳ not started · 🚧 in progress · ✅ done
 
+## Progress
+
+- ✅ **Phase 1 — Frontend foundation** (tag `phase-1`)
+  Vite + React + TS, Tailwind v4, routing shell, layout,
+  placeholder pages, SPA rewrite, type-safe env, error boundary.
+  Verified by `scripts/verify-phase1.ps1` — 6/6 sections pass.
+
 ## Stack
 
 - React 18 + Vite + TypeScript
 - Tailwind CSS v4 (`@tailwindcss/vite` plugin)
 - Zustand + `zustand/persist`
 - React Router v6
-- Axios (shared instance in `services/http.ts`)
-- HTML5 `<audio>` (single instance in `services/audio.ts`)
+- Axios (shared instance in `services/http.ts` — Phase 3)
+- HTML5 `<audio>` (single instance in `services/audio.ts` — Phase 5)
 - Audius (primary) + Jamendo (optional, licensed)
 - Hosting: Vercel · Repo: GitHub · DB (Phase 7): Supabase

@@ -20,3 +20,17 @@ implementation notes.
 - One branch per phase: `feat/phase-<n>-<slug>`
 - One tag per completed phase: `phase-<n>`
 - Each phase doc must be updated (checkboxes ticked) before tagging.
+
+# OpenMusic
+
+Free, ad-free music streaming web app built on Audius and Jamendo.
+
+**Status:** Phase 1 complete — frontend foundation shipped.
+See [`docs/ROADMAP.md`](./docs/ROADMAP.md) for the full plan.
+
+## Quickstart
+
+```powershell
+npm install
+cp .env.example .env.local      # fill in VITE_AUDIUS_APP_NAME
+npm run dev                     # http://localhost:5173
