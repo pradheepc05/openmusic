@@ -1,7 +1,7 @@
 
 ---
 
-## Companion `docs/ROADMAP.md` (updated)
+## 2. `docs/ROADMAP.md` (updated table + progress)
 
 ```markdown
 # OpenMusic Roadmap
@@ -9,7 +9,7 @@
 | Phase | Name                     | Status | Tag       |
 |-------|--------------------------|--------|-----------|
 | 1     | Frontend foundation      | ✅     | `phase-1` |
-| 2     | UI implementation        | ⏳     | `phase-2` |
+| 2     | UI implementation        | ✅     | `phase-2` |
 | 3     | Audius integration       | ⏳     | `phase-3` |
 | 4     | Jamendo integration      | ⏳     | `phase-4` |
 | 5     | Audio engine             | ⏳     | `phase-5` |
@@ -24,6 +24,12 @@
   Vite + React + TS, Tailwind v4, routing shell, layout,
   placeholder pages, SPA rewrite, type-safe env, error boundary.
   Verified by `scripts/verify-phase1.ps1` — 6/6 sections pass.
+
+- ✅ **Phase 2 — UI Implementation** (tag `phase-2`)
+  Mock dataset (20 tracks, 4 playlists, 8 genres), `SongCard`,
+  `SongList`, `PlaylistCard`, `SafeImage`, `Slider`, skeleton states,
+  responsive Home / Search / Explore / Library / Favorites / Playlist
+  pages. Verified by `scripts/verify-phase2.ps1` — 5/5 sections pass.
 
 ## Stack
 
